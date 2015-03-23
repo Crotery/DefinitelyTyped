@@ -200,7 +200,7 @@ declare module Q {
      * Returns a promise that is fulfilled with an array containing the fulfillment value of each promise, or is rejected with the same rejection reason as the first promise to be rejected.
      */
     export function all<T>(promises: IPromise<T>[]): Promise<T[]>;
-    
+    export function all(promises_or_values: any[]): Promise<any[]>;
     /**
      * Returns a promise that is fulfilled with an array of promise state snapshots, but only after all the original promises have settled, i.e. become either fulfilled or rejected.
      */

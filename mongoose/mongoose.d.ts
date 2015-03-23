@@ -4,8 +4,14 @@
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
 ///<reference path="../node/node.d.ts" />
+///<reference path="../mongodb/mongodb.d.ts" />
+
 
 declare module "mongoose" {
+
+
+  import mongodb = require('mongodb')
+
   function connect(uri: string, options?: ConnectionOption, callback?: (err: any) => void): Mongoose;
   function createConnection(): Connection;
   function createConnection(uri: string, options?: ConnectionOption): Connection;
@@ -68,8 +74,19 @@ declare module "mongoose" {
     mongos?: boolean;
   }
 
-  export interface Collection {
+  export interface Bulk {
+    execute:()=>any;
+      find(...args):Bulk;
+      insert(...args):Bulk;
+      updateOne(...args):Bulk;
   }
+
+  export interface Collection {
+    initializeOrderedBulkOp():Bulk;
+    initializeUnorderedBulkOp():Bulk;
+
+  }
+
 
 
   export class SchemaType { }
@@ -137,7 +154,8 @@ declare module "mongoose" {
     aggregate(aggregation1: Object, aggregation2: Object, aggregation3: Object, callback: (err: any, res: T[]) => void): Promise<T[]>;
     count(conditions: Object, callback?: (err: any, count: number) => void): Query<number>;
 
-    create(doc: Object, fn?: (err: any, res: T) => void): Promise<T[]>;
+    create(doc: Object, fn?: (err: any, res: T) => void): Promise<T>;
+    create(doc: Object[], fn?: (err: any, res: T) => void): Promise<T>;
     create(doc1: Object, doc2: Object, fn?: (err: any, res1: T, res2: T) => void): Promise<T[]>;
     create(doc1: Object, doc2: Object, doc3: Object, fn?: (err: any, res1: T, res2: T, res3: T) => void): Promise<T[]>;
     discriminator<U extends Document>(name: string, schema: Schema): Model<U>;
@@ -241,6 +259,7 @@ declare module "mongoose" {
   }
 
   export class Query<T> {
+    exec():Promise<number | T | T[]>;
     exec(callback?: (err: any, res: T) => void): Promise<T>;
     exec(operation: string, callback?: (err: any, res: T) => void): Promise<T>;
     exec(operation: Function, callback?: (err: any, res: T) => void): Promise<T>;
@@ -373,8 +392,8 @@ declare module "mongoose" {
   }
 
   export interface Document {
-    id?: string;
-    _id: string;
+    id?: any;
+    //_id: string;
 
     equals(doc: Document): boolean;
     get(path: string, type?: new(...args: any[]) => any): any;
