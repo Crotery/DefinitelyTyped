@@ -768,7 +768,10 @@ declare module D3 {
         };
 
         append: (name: string) => Selection;
-        insert: (name: string, before: string) => Selection;
+        insert: {
+            (name: string, before: string) : Selection;
+            (el: any, index?: number): any[];
+        };
         remove: () => Selection;
         empty: () => boolean;
 

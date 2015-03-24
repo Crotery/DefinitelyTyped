@@ -3,7 +3,7 @@
 // Definitions by: Michel Salib <https://github.com/michelsalib>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
-/// <reference path="../angularjs/angular.d.ts" />
+/// <reference path="../angularjs/legacy/angular-1.2.d.ts" />
 
 declare module angular.ui {
 
@@ -62,7 +62,7 @@ declare module angular.ui {
         reloadOnSearch?: boolean;
     }
 
-    interface IStateProvider extends IServiceProvider {
+    interface IStateProvider extends ng.IServiceProvider {
         state(name:string, config:IState): IStateProvider;
         state(config:IState): IStateProvider;
         decorator(name?: string, decorator?: (state: IState, parent: Function) => any): any;
@@ -81,7 +81,7 @@ declare module angular.ui {
         type(name: string, definition: any, definitionFn?: any): any;
     }
 
-    interface IUrlRouterProvider extends IServiceProvider {
+    interface IUrlRouterProvider extends ng.IServiceProvider {
         when(whenPath: RegExp, handler: Function): IUrlRouterProvider;
         when(whenPath: RegExp, handler: any[]): IUrlRouterProvider;
         when(whenPath: RegExp, toPath: string): IUrlRouterProvider;
@@ -143,7 +143,7 @@ declare module angular.ui {
          *
          * @param options Options object.
          */
-        go(to: string, params?: {}, options?: IStateOptions): IPromise<any>;
+        go(to: string, params?: {}, options?: IStateOptions): ng.IPromise<any>;
         transitionTo(state: string, params?: {}, updateLocation?: boolean): void;
         transitionTo(state: string, params?: {}, options?: IStateOptions): void;
         includes(state: string, params?: {}): boolean;
